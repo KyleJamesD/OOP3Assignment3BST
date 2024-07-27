@@ -111,7 +111,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     }
 
     @Override
-    public BSTreeNode search(E entry) throws NullPointerException {
+    public BSTreeNode<E> search(E entry) throws NullPointerException {
     /*
         if (root == null || root.value == entry)
             return root;
@@ -125,7 +125,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     }
     
     
-    private BSTreeNode search(E entry, BSTreeNode<E> node) {
+    private BSTreeNode<E> search(E entry, BSTreeNode<E> node) {
         if (node == null) {
             return null;
         }
@@ -183,7 +183,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     
     @Override
-    public BSTreeNode removeMin() {
+    public BSTreeNode<E> removeMin() {
         //if the tree is empty
         if(isEmpty())
         {return null;}
@@ -229,16 +229,69 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     }
     
     
-    
-   
+      
 
     @Override
-    public BSTreeNode removeMax() {
-        size --;
-        return null;
+    public BSTreeNode<E> removeMax() {
+        
+        if(isEmpty())
+        {return null;}
+        
+        //if the tree only has the root node and no children
+        if (root.left == null && root.right == null)
+        {BSTreeNode<E> temp = root;
+        clear();
+        return temp;
+        }
+        
+        //if the left sub tree is empty, replace the root with its right node, and return the root
+        if(root.left != null && root.right == null)
+        {
+        BSTreeNode<E> temp = root;
+        root = root.left;
+        size--;
+        return temp;
+        }
+        
+        //find the parent of the maxNode because traversal back up a tree requires to much overhead
+       BSTreeNode<E> parentmaxNode = root; 
+       BSTreeNode<E> temp;
+       
+       //find the parent of the maxnode
+        while (parentmaxNode.right.right != null)
+       {
+       parentmaxNode = parentmaxNode.right;
+       }
+        
+        
+        if (parentmaxNode.right.left != null)
+       {
+       temp = parentmaxNode.right;
+       parentmaxNode.right = parentmaxNode.right.left;
+       }
+       else 
+       {
+       temp = parentmaxNode.right;
+       parentmaxNode.right = null;
+       }
+       
+        size--;
+        return temp;
+        
+        
+  
 
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @Override
     public Iterator inorderIterator() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
