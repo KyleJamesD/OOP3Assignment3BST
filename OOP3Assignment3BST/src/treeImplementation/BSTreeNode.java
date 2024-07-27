@@ -11,9 +11,9 @@ package treeImplementation;
 public class BSTreeNode<E>  {
     
     
-    E value;
-    BSTreeNode<E> left;
-    BSTreeNode<E> right;
+   public E value;
+   public BSTreeNode<E> left;
+   public BSTreeNode<E> right;
 
     public BSTreeNode(E value) {
         this.value = value;

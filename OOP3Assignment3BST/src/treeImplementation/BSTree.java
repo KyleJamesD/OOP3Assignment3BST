@@ -301,13 +301,18 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     }
 
     @Override
-    public Iterator<E> preorderIterator() {
-        return new MyBSTreepreorderIterator(root);
+    public Iterator<E> preorderIterator() {   
+    //return new MyBSTreepreorderIterator(root);
+    
+    return new MyBSTreeinorderIterator();
     }
+    
+    
 
     @Override
     public Iterator postorderIterator() {
-        return new MyBSTreepostorderIterator();
+      //  return new MyBSTreepostorderIterator();
+      return new MyBSTreeinorderIterator();
     }
 
     
@@ -344,63 +349,17 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     
     /****************************************************************************************************************/
-     
-     public class MyBSTreepreorderIterator<E> implements Iterator<E>{
-
-        private Stack<BSTreeNode<E>> stack;
-
-        public MyBSTreepreorderIterator(BSTreeNode<E> root) {
-            stack = new Stack<>();
-            if (root != null) {
-                stack.push(root);
-            }
-        }
-        
-        @Override
-        public boolean hasNext() {
-            return !stack.isEmpty();
-        }
-
-        @Override
-        public E next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            BSTreeNode node = stack.pop();
-            if (node.right != null) {
-                stack.push(node.right);
-            }
-            if (node.left != null) {
-                stack.push(node.left);
-            }
-            return node.value;
-        }
-        
-      
-    }
     
     
-        /****************************************************************************************************************/
+    
+    
+    
+    
+    
+
+    /****************************************************************************************************************/
           
-    private class MyBSTreepostorderIterator implements Iterator<E>{
 
-        private int index = 0;
-
-        @Override
-        public boolean hasNext() {
-            return index < size;
-        }
-
-        @Override
-        public E next() throws NoSuchElementException {
-            if (!hasNext()) throw new NoSuchElementException();
-            return data[index++];
-        }
-    }
-   
-   
-    
-    
     
     
     
