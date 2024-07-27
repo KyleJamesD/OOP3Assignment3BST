@@ -12,8 +12,8 @@ public class BSTreeNode<E>  {
     
     
     E value;
-    BSTreeNode left;
-    BSTreeNode right;
+    BSTreeNode<E> left;
+    BSTreeNode<E> right;
 
     public BSTreeNode(E value) {
         this.value = value;

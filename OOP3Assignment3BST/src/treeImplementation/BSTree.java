@@ -4,8 +4,11 @@
  */
 package treeImplementation;
 
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import utilities.BSTreeADT;
 import utilities.Iterator;
+import java.util.Stack;
 
 /**
  *
@@ -14,7 +17,7 @@ import utilities.Iterator;
 public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     
-    BSTreeNode<E> root;
+    public BSTreeNode<E> root;
     int size;
     
     /*******************************Begin Constructors******************************************************/
@@ -293,31 +296,113 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     
     @Override
-    public Iterator inorderIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Iterator<E> inorderIterator() {
+        return new MyBSTreeinorderIterator();
     }
 
     @Override
-    public Iterator preorderIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Iterator<E> preorderIterator() {
+        return new MyBSTreepreorderIterator(root);
     }
 
     @Override
     public Iterator postorderIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new MyBSTreepostorderIterator();
     }
 
     
    
      /*******************************End Class Methods******************************************************/
     
-    /*******************************BEGIN external Classes******************************************************/
+    /*******************************BEGIN Iterator external Classes******************************************************/
 
     
+    private class MyBSTreeinorderIterator<E> implements Iterator<E>{
+
+        private int index = 0;
+        public ArrayList<E> newArray = new ArrayList<>();
+        
+        
+        public void inorder( BSTreeNode<E> p ) {
+	 if( p != null ) {
+		inorder( p.left ); 	//L
+		newArray.add(p.value);  //V
+		inorder( p.right ); } 	//R
+		}
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException();
+            return newArray.get(index++);
+        }
+    }
+    
+    
+    /****************************************************************************************************************/
+     
+     public class MyBSTreepreorderIterator<E> implements Iterator<E>{
+
+        private Stack<BSTreeNode<E>> stack;
+
+        public MyBSTreepreorderIterator(BSTreeNode<E> root) {
+            stack = new Stack<>();
+            if (root != null) {
+                stack.push(root);
+            }
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            BSTreeNode node = stack.pop();
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+            return node.value;
+        }
+        
+      
+    }
+    
+    
+        /****************************************************************************************************************/
+          
+    private class MyBSTreepostorderIterator implements Iterator<E>{
+
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException();
+            return data[index++];
+        }
+    }
+   
+   
     
     
     
     
     
-    /*************End of Class*******************/
+    /*************End of BSTree Class*******************/
 }
