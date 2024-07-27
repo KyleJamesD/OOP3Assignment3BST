@@ -144,8 +144,12 @@ public class BSTreeADTTest {
      */
     @Test
     public void testSize() {
-        System.out.println("size");
-        fail();
+        int intresult = Ibst.size();
+        int strresult = Strbst.size();
+
+        
+        assertEquals(7,intresult);
+        assertEquals(7,strresult);
 
     }
 
@@ -154,8 +158,24 @@ public class BSTreeADTTest {
      */
     @Test
     public void testIsEmpty() {
-        System.out.println("isEmpty");
-        fail();
+        boolean intresult = Ibst.isEmpty();
+        boolean strresult = Strbst.isEmpty();
+
+        assertEquals(false,intresult);
+        assertEquals(false,strresult);
+        
+        Ibst.clear();
+        Strbst.clear();
+        
+        
+        boolean intresult2 = Ibst.isEmpty();
+        boolean strresult2 = Strbst.isEmpty();
+
+        assertEquals(true,intresult2);
+        assertEquals(true,strresult2);
+        
+        
+        
 
     }
 
@@ -164,8 +184,21 @@ public class BSTreeADTTest {
      */
     @Test
     public void testClear() {
-        System.out.println("clear");
-        fail();
+        boolean intresult = Ibst.isEmpty();
+        boolean strresult = Strbst.isEmpty();
+
+        assertEquals(false,intresult);
+        assertEquals(false,strresult);
+        
+        Ibst.clear();
+        Strbst.clear();
+        
+        
+        boolean intresult2 = Ibst.isEmpty();
+        boolean strresult2 = Strbst.isEmpty();
+
+        assertEquals(true,intresult2);
+        assertEquals(true,strresult2);
 
     }
 
@@ -174,8 +207,21 @@ public class BSTreeADTTest {
      */
     @Test
     public void testContains() {
-        System.out.println("contains");
-        fail();
+        
+        boolean intresult = Ibst.contains(3);
+        boolean strresult = Strbst.contains("Tie interceptor");
+        assertEquals(true,intresult);
+        assertEquals(true,strresult);
+        
+        
+        boolean intresult2 = Ibst.contains(311);
+        boolean strresult2 = Strbst.contains("Tie interceptordsaddwadw");
+        assertEquals(false,intresult2);
+        assertEquals(false,strresult2);
+        
+        
+        
+        
     }
 
     /**
@@ -183,8 +229,21 @@ public class BSTreeADTTest {
      */
     @Test
     public void testSearch() {
-        System.out.println("search");
-        fail();
+        
+        
+        BSTreeNode<Integer> nodeintresult = Ibst.search(3);
+        int intresult = nodeintresult.value;
+        
+        BSTreeNode<String> nodestrresult = Strbst.search("Tie interceptor");
+        String strresult = nodestrresult.value;
+        assertEquals(3,intresult);
+        assertEquals("Tie interceptor",strresult);
+        
+        
+        boolean intresult2 = Ibst.contains(311);
+        boolean strresult2 = Strbst.contains("Tie interceptordsaddwadw");
+        assertEquals(false,intresult2);
+        assertEquals(false,strresult2);
     }
 
     /**
@@ -219,8 +278,30 @@ public class BSTreeADTTest {
      */
     @Test
     public void testInorderIterator() {
-        System.out.println("inorderIterator");
-        fail();
+        
+        
+        
+        
+        
+        
+        
+        Iterator<Integer> iterator = Ibst.inorderIterator();
+        assertTrue(iterator.hasNext());
+        assertEquals((Integer)3, iterator.next());
+        assertEquals((Integer)5, iterator.next());
+        assertEquals((Integer)7, iterator.next());
+        
+        
+        
+        Iterator<Integer> iterator2 = Ibst.inorderIterator();
+        assertNotEquals((Integer)33, iterator2.next());
+
+        //assertFalse(iterator.hasNext());
+        
+        
+        
+        
+        
     }
 
     /**

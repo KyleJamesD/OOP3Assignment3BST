@@ -297,14 +297,14 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     @Override
     public Iterator<E> inorderIterator() {
-        return new MyBSTreeinorderIterator();
+        return new MyBSTreeinorderIterator(root);
     }
 
     @Override
     public Iterator<E> preorderIterator() {   
     //return new MyBSTreepreorderIterator(root);
     
-    return new MyBSTreeinorderIterator();
+    return new MyBSTreeinorderIterator(root);
     }
     
     
@@ -312,7 +312,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     @Override
     public Iterator postorderIterator() {
       //  return new MyBSTreepostorderIterator();
-      return new MyBSTreeinorderIterator();
+      return new MyBSTreeinorderIterator(root);
     }
 
     
@@ -327,6 +327,9 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
         private int index = 0;
         public ArrayList<E> newArray = new ArrayList<>();
         
+        public MyBSTreeinorderIterator(BSTreeNode<E> root) {
+        inorder(root);
+    }
         
         public void inorder( BSTreeNode<E> p ) {
 	 if( p != null ) {
@@ -334,6 +337,8 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 		newArray.add(p.value);  //V
 		inorder( p.right ); } 	//R
 		}
+        
+        
 
         @Override
         public boolean hasNext() {
