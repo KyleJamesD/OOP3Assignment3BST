@@ -58,8 +58,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
         int rightheight = getHeightHelper(rootnode.right);
         
         if(leftHeight > rightheight){return leftHeight+1;}
-        else return rightheight+1;
-           
+        else return rightheight+1;        
     } 
     
     
@@ -121,59 +120,117 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
         return search(root.left, entry);
     unfortunately because we are using generics we cannot compare in this way, we will need to implemement the compareTo Method.
     */
-    
     if (entry == null){throw new NullPointerException();}
     return search(entry, root);
     }
     
     
     private BSTreeNode search(E entry, BSTreeNode<E> node) {
-
-        int compareResult = entry.compareTo(node.value);
-
-        if (compareResult == 1){
-        return entry;
+        if (node == null) {
+            return null;
         }
+        int compareResult = entry.compareTo(node.value);
         
         if (compareResult < 0) {
             return search(entry, node.left);
         } 
         
-        else if (compareResult > 0) {
+        if (compareResult > 0) {
             return search(entry, node.right);
         } 
         
-        else {
-            return null; // element found
-        }
-        
+        else //(compareResult == 0)
+            return node; // element found
+          
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+
 
     @Override
     public boolean add(E newEntry) throws NullPointerException {
-        
-        size ++;
-        return false;
+        if (newEntry == null) {
+            throw new NullPointerException();
+        }
+            
+            if(isEmpty())
+            { root = new BSTreeNode(newEntry);
+            size++;
+            return true;
+            }            
+            
+            else
+                add(root, newEntry);
+            size ++;
+            return true;
     }
 
+    // recursively call and use the E class compareTo method for comparison* note the Class MUST have compareTo implemented
+    private void add(BSTreeNode<E> node, E newEntry) {
+
+        if(newEntry.compareTo(node.value) < 0) {
+            if(node.left == null)
+                node.left = new BSTreeNode(newEntry);
+            else
+                add(node.left, newEntry);
+        }
+        else {
+            if(node.right == null)
+                node.right = new BSTreeNode(newEntry);
+            else
+                add(node.right, newEntry);
+        }
+    }
+    
+    
     @Override
     public BSTreeNode removeMin() {
+        //if the tree is empty
+        if(isEmpty())
+        {return null;}
+        //if the tree only has the root node and no children
+        if (root.left == null && root.right == null)
+        {BSTreeNode<E> temp = root;
+        clear();
+        return temp;
+        }
         
-        
-        
+        //if the left sub tree is empty, replace the root with its right node, and return the root
+        if(root.left == null && root.right!= null)
+        {
+        BSTreeNode<E> temp = root;
+        root = root.right;
         size--;
-        return null;
+        return temp;
+        }
+        
+        //find the parent of the mindNode because traversal back up a tree requires to much overhead
+       BSTreeNode<E> parentminNode = root; //= returnleftroot(root);
+       BSTreeNode<E> temp;
+
+       while (parentminNode.left.left != null)
+       {
+       parentminNode = parentminNode.left;
+       }
+       
+       if (parentminNode.left.right != null)
+       {
+       temp = parentminNode.left;
+       parentminNode.left = parentminNode.left.right;
+       }
+       else 
+       {
+       temp = parentminNode.left;
+       parentminNode.left = null;
+       }
+       
+        size--;
+        return temp;
         
     }
+    
+    
+    
+   
 
     @Override
     public BSTreeNode removeMax() {
