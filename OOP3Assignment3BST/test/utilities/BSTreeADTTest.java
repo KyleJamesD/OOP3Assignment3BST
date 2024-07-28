@@ -4,6 +4,7 @@
  */
 package utilities;
 
+import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -173,9 +174,6 @@ public class BSTreeADTTest {
 
         assertEquals(true,intresult2);
         assertEquals(true,strresult2);
-        
-        
-        
 
     }
 
@@ -218,9 +216,7 @@ public class BSTreeADTTest {
         boolean strresult2 = Strbst.contains("Tie interceptordsaddwadw");
         assertEquals(false,intresult2);
         assertEquals(false,strresult2);
-        
-        
-        
+
         
     }
 
@@ -251,8 +247,43 @@ public class BSTreeADTTest {
      */
     @Test
     public void testAdd() {
-        System.out.println("add");
-        fail();
+        
+        assertEquals(7,Ibst.size());
+        Ibst.add(19);
+        assertEquals(8,Ibst.size());
+        Ibst.add(2);
+        assertEquals(9,Ibst.size());
+        
+        
+        
+        BSTreeNode<Integer> checkmax = Ibst.removeMax();
+        assertEquals((Integer)19,checkmax.value);
+        
+        BSTreeNode<Integer> checkmax2 = Ibst.removeMax();
+        assertEquals((Integer)18,checkmax2.value);
+        
+        assertEquals(7,Ibst.size());
+        
+        
+        BSTreeNode<Integer> checkmin = Ibst.removeMin();
+        assertEquals((Integer)2,checkmin.value);
+        
+        BSTreeNode<Integer> checkmin2 = Ibst.removeMin();
+        assertEquals((Integer)3,checkmin2.value);
+        
+        assertEquals(5,Ibst.size());
+        
+        
+        
+        Ibst.clear();
+        
+        assertEquals(true,Ibst.isEmpty());
+        
+        Ibst.add(3403);
+        
+        assertEquals((Integer)3403,Ibst.root.value);
+        
+        
     }
 
     /**
@@ -260,8 +291,35 @@ public class BSTreeADTTest {
      */
     @Test
     public void testRemoveMin() {
-        System.out.println("removeMin");
-        fail();
+
+        int checksize0 = Ibst.size(); 
+        assertEquals(7,checksize0);
+        
+        
+        BSTreeNode<Integer> nodeintresult = Ibst.removeMin();
+        int intresult = nodeintresult.value;
+        
+        assertEquals (3,intresult);
+        
+        int checksize = Ibst.size(); 
+        assertEquals(6,checksize); 
+        
+        BSTreeNode<Integer> nodeintresult2 = Ibst.removeMin();
+        int intresult2 = nodeintresult2.value;
+        
+        assertEquals (5,intresult2);
+        
+        int checksize2 = Ibst.size(); 
+        assertEquals(5,checksize2);
+        
+        
+        
+        int checkleft = Ibst.root.left.value;
+        assertEquals(7,checkleft);
+        
+        
+        
+        
     }
 
     /**
@@ -269,8 +327,51 @@ public class BSTreeADTTest {
      */
     @Test
     public void testRemoveMax() {
-        System.out.println("removeMax");
-        fail();
+        
+        BSTreeNode<Integer> nodeintresult = Ibst.removeMax();
+        int intresult = nodeintresult.value;
+        
+        assertEquals(18,intresult);
+        
+        
+        BSTreeNode<String> nodestrresult = Strbst.removeMax();
+        String strresult = nodestrresult.value;
+        
+        assertEquals("X-wing",strresult);
+        
+        
+        boolean intresult2 = Ibst.contains(18);
+        boolean strresult2 = Strbst.contains("X-wing");
+        assertEquals(false,intresult2);
+        assertEquals(false,strresult2);
+        
+        
+        BSTreeNode<Integer> nodeintresult3 = Ibst.removeMax();
+        int intresult3 = nodeintresult3.value;
+        
+        assertEquals(15,intresult3);
+        
+        BSTreeNode<Integer> nodeintresult4 = Ibst.removeMax();
+        int intresult4 = nodeintresult4.value;
+        
+        assertEquals(12,intresult4);
+        
+        BSTreeNode<Integer> nodeintresult5 = Ibst.removeMax();
+        int intresult5 = nodeintresult5.value;
+        
+        assertEquals(10,intresult5);
+        
+        
+        
+        int checksize = Ibst.size(); 
+        assertEquals(3,checksize);  
+        
+        
+        //check the root
+        assertEquals((Integer)5,Ibst.root.value);  
+        assertNotEquals((Integer)7,Ibst.root.value);
+        
+        
     }
 
     /**
@@ -279,28 +380,45 @@ public class BSTreeADTTest {
     @Test
     public void testInorderIterator() {
         
-        
-        
-        
-        
-        
-        
         Iterator<Integer> iterator = Ibst.inorderIterator();
         assertTrue(iterator.hasNext());
         assertEquals((Integer)3, iterator.next());
         assertEquals((Integer)5, iterator.next());
         assertEquals((Integer)7, iterator.next());
+        assertEquals((Integer)10, iterator.next());
+        assertEquals((Integer)12, iterator.next());
+        assertEquals((Integer)15, iterator.next());
+        assertEquals((Integer)18, iterator.next());
         
+        assertThrows(NoSuchElementException.class,() -> iterator.next());
         
+        assertFalse(iterator.hasNext());
         
         Iterator<Integer> iterator2 = Ibst.inorderIterator();
         assertNotEquals((Integer)33, iterator2.next());
+        
+        
+        
+        
+        Iterator<String> iterator3 = Strbst.inorderIterator();
+        assertTrue(iterator3.hasNext());
+        assertEquals("A-wing", iterator3.next());
+        assertEquals("B-wing", iterator3.next());
+        assertEquals("Millenium Falcon", iterator3.next());
+        assertEquals("Tie fighter", iterator3.next());
+        assertEquals("Tie interceptor", iterator3.next());
+        assertEquals("VCX-100 light freighter", iterator3.next());
+        assertEquals("X-wing", iterator3.next());
+        
+        assertThrows(NoSuchElementException.class,() -> iterator3.next());
+        
+        assertFalse(iterator3.hasNext());
+        
+        Iterator<String> iterator4 = Strbst.inorderIterator();
+        assertNotEquals((String)"33", iterator4.next());
 
-        //assertFalse(iterator.hasNext());
         
-        
-        
-        
+      
         
     }
 
@@ -309,8 +427,49 @@ public class BSTreeADTTest {
      */
     @Test
     public void testPreorderIterator() {
-        System.out.println("preorderIterator");
-        fail();
+        Iterator<Integer> iterator = Ibst.preorderIterator();
+        assertTrue(iterator.hasNext());
+        assertEquals((Integer)10, iterator.next());
+        assertEquals((Integer)5, iterator.next());
+        assertEquals((Integer)3, iterator.next());
+        assertEquals((Integer)7, iterator.next());
+        assertEquals((Integer)15, iterator.next());
+        assertEquals((Integer)12, iterator.next());
+        assertEquals((Integer)18, iterator.next());
+        
+        assertThrows(NoSuchElementException.class,() -> iterator.next());
+        
+        assertFalse(iterator.hasNext());
+        
+        Iterator<Integer> iterator2 = Ibst.preorderIterator();
+        assertNotEquals((Integer)33, iterator2.next());
+        
+        
+        //"Tie interceptor"
+       // A-wing
+            //  "Millenium Falcon"  
+               // "Tie fighter"
+               // "Tie interceptor"
+              //  "VCX-100 light freighter"
+              //  "X-wing"
+               
+                
+        Iterator<String> iterator3 = Strbst.preorderIterator();
+        assertTrue(iterator3.hasNext());
+        assertEquals("Tie interceptor", iterator3.next());
+        assertEquals("B-wing", iterator3.next());
+        assertEquals("A-wing", iterator3.next());
+        assertEquals("Tie fighter", iterator3.next());
+        assertEquals("Millenium Falcon", iterator3.next());
+        assertEquals("VCX-100 light freighter", iterator3.next());
+        assertEquals("X-wing", iterator3.next());
+        
+        assertThrows(NoSuchElementException.class,() -> iterator3.next());
+        
+        assertFalse(iterator3.hasNext());
+        
+        Iterator<String> iterator4 = Strbst.preorderIterator();
+        assertNotEquals((String)"33", iterator4.next());
     }
 
     /**
@@ -318,8 +477,53 @@ public class BSTreeADTTest {
      */
     @Test
     public void testPostorderIterator() {
-        System.out.println("postorderIterator");
-        fail();
+        
+        Iterator<Integer> iterator = Ibst.postorderIterator();
+        assertTrue(iterator.hasNext());
+        assertEquals((Integer)3, iterator.next());
+        assertEquals((Integer)7, iterator.next());
+        assertEquals((Integer)5, iterator.next());
+        assertEquals((Integer)12, iterator.next());
+        assertEquals((Integer)18, iterator.next());
+        assertEquals((Integer)15, iterator.next());
+        assertEquals((Integer)10, iterator.next());
+       
+        
+        /*
+        assertThrows(NoSuchElementException.class,() -> iterator.next());
+        
+        assertFalse(iterator.hasNext());
+        
+        Iterator<Integer> iterator2 = Ibst.postorderIterator();
+        assertNotEquals((Integer)33, iterator2.next());
+        
+        
+        //"Tie interceptor"
+       // A-wing
+            //  "Millenium Falcon"  
+               // "Tie fighter"
+               // "Tie interceptor"
+              //  "VCX-100 light freighter"
+              //  "X-wing"
+               
+                
+        Iterator<String> iterator3 = Strbst.postorderIterator();
+        assertTrue(iterator3.hasNext());
+        assertEquals("A-wing", iterator3.next());
+        assertEquals("B-wing", iterator3.next());
+        assertEquals("A-wing", iterator3.next());
+        assertEquals("Tie fighter", iterator3.next());
+        assertEquals("Millenium Falcon", iterator3.next());
+        assertEquals("VCX-100 light freighter", iterator3.next());
+        assertEquals("X-wing", iterator3.next());
+        
+        assertThrows(NoSuchElementException.class,() -> iterator3.next());
+        
+        assertFalse(iterator3.hasNext());
+        
+        Iterator<String> iterator4 = Strbst.postorderIterator();
+        assertNotEquals((String)"33", iterator4.next());
+        */
     }
     
     

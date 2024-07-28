@@ -304,7 +304,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     public Iterator<E> preorderIterator() {   
     //return new MyBSTreepreorderIterator(root);
     
-    return new MyBSTreeinorderIterator(root);
+    return new MyBSTreepreorderIterator(root);
     }
     
     
@@ -312,7 +312,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     @Override
     public Iterator postorderIterator() {
       //  return new MyBSTreepostorderIterator();
-      return new MyBSTreeinorderIterator(root);
+      return new MyBSTreepostorderIterator(root);
     }
 
     
@@ -354,7 +354,35 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
     
     /****************************************************************************************************************/
-    
+    private class MyBSTreepreorderIterator<E> implements Iterator<E>{
+
+        private int index = 0;
+        public ArrayList<E> newArray = new ArrayList<>();
+        
+        public MyBSTreepreorderIterator(BSTreeNode<E> root) {
+        preorder(root);
+    }
+        
+        public void preorder( BSTreeNode<E> p ) {
+	 if( p != null ) {
+                newArray.add(p.value); //V
+		preorder( p.left );    //L
+		preorder( p.right ); } //R
+		}
+        
+        
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException();
+            return newArray.get(index++);
+        }
+    }
     
     
     
@@ -363,7 +391,35 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
     
 
     /****************************************************************************************************************/
-          
+          private class MyBSTreepostorderIterator<E> implements Iterator<E>{
+
+        private int index = 0;
+        public ArrayList<E> newArray = new ArrayList<>();
+        
+        public MyBSTreepostorderIterator(BSTreeNode<E> root) {
+        postorder(root);
+    }
+        
+        public void postorder( BSTreeNode<E> p ) {
+	 if( p != null ) {
+		postorder( p.left ); 	//L	
+		postorder( p.right );  	//R
+                newArray.add(p.value);}  //V
+		}
+        
+        
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException();
+            return newArray.get(index++);
+        }
+    }
 
     
     
